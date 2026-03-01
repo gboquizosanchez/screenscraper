@@ -121,11 +121,13 @@ final class ScreenScraper
             return $data;
         }
 
+        $response = $data['response'] ?? [];
+
         /** @var T $dtoInstance */
         $dtoInstance = $mapKey === null
-            ? $dto::from($data)
+            ? $dto::from($response)
             : $dto::from([
-                $mapKey => $data,
+                $mapKey => $response,
             ]);
 
         if (config('screenscraper.mapping.dto')) {
