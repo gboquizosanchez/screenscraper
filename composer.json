@@ -1,6 +1,5 @@
 {
   "name": "gboquizosanchez/screenscraper",
-  "version": "1.0.0",
   "description": "Laravel wrapper for ScreenScraper API",
   "license": "MIT",
   "type": "library",
@@ -48,7 +47,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "ScreenScraperServiceProvider"
+        "ScreenScraper\\ScreenScraperServiceProvider"
       ]
     }
   },
