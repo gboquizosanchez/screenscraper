@@ -8,21 +8,46 @@ trait HasBots
 {
     /**
      * @link https://www.screenscraper.fr/webapi2.php?alpha=0&numpage=0#botNote
-     *
-     * @todo: need implementation
      */
-    public function sendGameRating(): void
+    public function sendGameRating(
+        int $gameId,
+        int $rating,
+        string $romName,
+        string $crc,
+    ): void
     {
-        $data = $this->call('botNote.php');
+        $this->call('botNote.php', [
+            'id' => $gameId,
+            'note' => $rating,
+            'romnom' => $romName,
+            'crc' => $crc,
+        ]);
     }
 
     /**
      * @link https://www.screenscraper.fr/webapi2.php?alpha=0&numpage=0#botProposition
-     *
-     * @todo: need implementation
      */
-    public function sendContribution(): void
-    {
-        $data = $this->call('botProposition.php');
+    public function sendContribution(
+        int $gameId,
+        string $region,
+        string $mediaType,
+        string $url,
+        string $crc,
+        string $md5,
+        string $sha1,
+        int $size,
+        string $format,
+    ): void{
+        $this->call('botProposition.php', [
+            'id' => $gameId,
+            'region' => $region,
+            'media' => $mediaType,
+            'url' => $url,
+            'crc' => $crc,
+            'md5' => $md5,
+            'sha1' => $sha1,
+            'taille' => $size,
+            'format' => $format,
+        ]);
     }
 }

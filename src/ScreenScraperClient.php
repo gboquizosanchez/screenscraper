@@ -19,6 +19,7 @@ use ScreenScraper\Models\ScreenScraper;
  *
  * Start list methods.
  * @method static getSupportTypes(): SupportTypesData|array
+ * @method static getRomTypes(): RomTypesData|array
  * @method static getLanguages(): LanguagesData|array
  * @method static getRegions(): RegionsData|array
  * @method static getGenres(): GenresData|array
@@ -28,26 +29,26 @@ use ScreenScraper\Models\ScreenScraper;
  * Start system methods.
  * @method static getSystems(): SystemsData|array
  * @method static getSystemMediaTypes(): SystemMediaTypesData|array
- * @method static downloadSystemMedia(int $systemId, string $media, ?string $md5 = null, ?string $sha1 = null, ?string $mediaFormat = null): string
+ * @method static downloadSystemMedia(int $systemId, string $media, ?string $md5 = null, ?string $sha1 = null, ?string $mediaFormat = null, ?int $maxWidth = null, ?int $maxHeight = null, ?string $outputFormat = null): string
  * @method static downloadSystemVideo(int $systemId, string $media, ?string $crc = null, ?string $md5 = null, ?string $sha1 = null, ?string $mediaFormat = null): string
  *
  * Start games methods.
- * @method static searchGames(int $systemId, string $search): GamesSearchResultsData|array
- * @method static getGame(int $gameId): GameData|array
+ * @method static searchGames(int $systemId, string $search): GameSearchResultsData|array
+ * @method static getGame(int|array $identifier, ?string $crc = null, ?string $md5 = null, ?string $sha1 = null, ?int $systemId = null, ?string $romType = null, ?string $romName = null, ?int $romSize = null, ?string $serialNum = null): GamesData|GameSearchResultsData|array
  * @method static getGameInfoTypes(): GameInfoTypesData|array
  * @method static getRomInfoTypes(): RomInfoTypesData|array
  * @method static getGameMediaTypes(int $gameId): GameMediaTypesData|array
- * @method static downloadGameMedia(int $gameId): mixed
- * @method static downloadGameVideo(int $gameId): mixed
- * @method static downloadGameManual(int $gameId): mixed
+ * @method static downloadGameMedia(int $gameId): string
+ * @method static downloadGameVideo(int $gameId): string
+ * @method static downloadGameManual(int $gameId): string
  *
  * Start groups methods.
- * @method static downloadGroupMedia(int $groupId, int $mediaId): mixed
- * @method static downloadCompanyMedia(int $groupId, int $mediaId): mixed
+ * @method static downloadGroupMedia(int $groupId, string $media): string
+ * @method static downloadCompanyMedia(int $companyId, string $media): string
  *
  * Start bots methods.
- * @method static sendGameRating()
- * @method static sendContribution()
+ * @method static sendGameRating(int $gameId, int $rating, string $romName, string $crc): void
+ * @method static sendContribution(int $gameId, string $region, string $mediaType, string $url, string $crc, string $md5, string $sha1, int $size, string $format): void
  *
  * @see ScreenScraper
  */

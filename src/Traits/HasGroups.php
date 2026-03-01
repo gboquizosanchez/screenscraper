@@ -8,21 +8,23 @@ trait HasGroups
 {
     /**
      * @link https://www.screenscraper.fr/webapi2.php?alpha=0&numpage=0#mediaGroup
-     *
-     * @todo: need implementation
      */
-    public function downloadGroupMedia(int $groupId, int $mediaId)
+    public function downloadGroupMedia(int $groupId, string $media): string
     {
-        return $this->call('mediaGroup.php', ['id' => $groupId, 'media' => $mediaId]);
+        return $this->callRaw('mediaGroup.php', [
+            'id' => $groupId,
+            'media' => $media,
+        ]);
     }
 
     /**
      * @link https://www.screenscraper.fr/webapi2.php?alpha=0&numpage=0#mediaCompagnie
-     *
-     * @need implementation
      */
-    public function downloadCompanyMedia(int $companyId, int $mediaId)
+    public function downloadCompanyMedia(int $companyId, string $media): string
     {
-        return $this->call('mediaCompagnie.php', ['id' => $companyId, 'media' => $mediaId]);
+        return $this->callRaw('mediaCompagnie.php', [
+            'id' => $companyId,
+            'media' => $media,
+        ]);
     }
 }
