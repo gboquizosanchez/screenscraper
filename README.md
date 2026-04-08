@@ -1,54 +1,66 @@
-<p align="center" dir="auto"><a href="https://screenscraper.org" rel="nofollow"><img src="https://www.screenscraper.fr/images/logo-512x512.png" width="100" alt="ScreenScraper Logo" style="max-width: 100%;"></a></p>
-<h1 align="center">ScreenScraper.org API Container for Laravel</h1>
+<div align="center">
 
-<hr />
+<img src="https://www.screenscraper.fr/images/logo-512x512.png" width="100" alt="ScreenScraper">
 
-## Summary
-A library that lets you get data from ScreenScraper directly in your Laravel application.
+# `gboquizosanchez/screenscraper`
 
-## Starting 🚀
+**ScreenScraper.fr API client for Laravel**
 
-### Prerequisites 📋
-- Composer.
-- PHP version 8.3 or higher.
+[![Latest Stable Version](https://img.shields.io/packagist/v/gboquizosanchez/screenscraper.svg)](https://packagist.org/packages/gboquizosanchez/screenscraper)
+[![Total Downloads](https://img.shields.io/packagist/dt/gboquizosanchez/screenscraper.svg)](https://packagist.org/packages/gboquizosanchez/screenscraper)
+[![PHP](https://img.shields.io/badge/PHP-%5E8.3-777BB4?logo=php&logoColor=white)](https://packagist.org/packages/gboquizosanchez/screenscraper)
+[![Laravel](https://img.shields.io/badge/Laravel-11%20%7C%2012-FF2D20?logo=laravel&logoColor=white)](https://packagist.org/packages/gboquizosanchez/screenscraper)
+[![License: MIT](https://img.shields.io/badge/License-MIT-22C55E.svg)](LICENSE.md)
 
-## Running 🛠️
+---
 
-Install the package via composer:
+*Fetch game metadata, media, and platform data from ScreenScraper.fr directly in your Laravel app.*
 
-```shell
+</div>
+
+---
+
+## Overview
+
+A Laravel package that wraps the full [ScreenScraper API](https://www.screenscraper.fr/webapi2.php?alpha=0&numpage=0), giving you access to game info, artwork, ratings, and more — with optional DTO mapping via [spatie/laravel-data](https://github.com/spatie/laravel-data).
+
+> **Note:** You need a ScreenScraper account and developer credentials to use this package. Register [here](https://www.screenscraper.fr/membreinscription.php) and request developer access [here](https://www.screenscraper.fr/forumsujets.php?frub=12&numpage=0).
+
+---
+
+## 📦 Installation
+
+```bash
 composer require gboquizosanchez/screenscraper
 ```
 
-Establish the configuration in the `.env` file:
+Add your credentials to `.env`:
 
-```dotenv
+```env
 SCREENSCRAPER_BASE_URL=https://api.screenscraper.fr/api2/
 SCREENSCRAPER_OUTPUT=json
 SCREENSCRAPER_USERNAME=your_username
 SCREENSCRAPER_PASSWORD=your_password
-SCREENSCRAPER_DTO_MAPPING=true
-SCREENSCRAPER_RAW_PROPERTIES=false
-SCREENSCRAPER_DEV_ID=xxx
-SCREENSCRAPER_DEV_PASSWORD=yyy
+SCREENSCRAPER_DEV_ID=your_dev_id
+SCREENSCRAPER_DEV_PASSWORD=your_dev_password
 SCREENSCRAPER_SOFTNAME="ScreenScraper API Client for Laravel"
-
+SCREENSCRAPER_DTO_MAPPING=true
+SCREENSCRAPER_RAW_MAPPING=false
 ```
 
-You can also publish the configuration file to customize the package:
+Optionally, publish the configuration file:
 
-```shell
+```bash
 php artisan vendor:publish --provider="ScreenScraper\ScreenScraperServiceProvider"
 ```
-**Note**: You need to have a ScreenScraper account to use the API. If you don't have one, you can request one [here](https://www.screenscraper.fr/forumsujets.php?frub=12&numpage=0). And also, you need to have an account. You can get one on the [register page]([https://www.screenscraper.fr/membreinscription.php).
 
-## Basic Usage 👷
+---
 
-You can use two different methods:
+## 🚀 Usage
 
-### Using the facade
+### Via facade
 
-This method provides directly from ```.env``` file the username and the web API key.
+The facade reads credentials directly from your `.env`:
 
 ```php
 use ScreenScraper\ScreenScraperClient;
@@ -56,73 +68,84 @@ use ScreenScraper\ScreenScraperClient;
 ScreenScraperClient::getGame(gameId: 1);
 ```
 
-### Using the ScreenScraper model directly
+### Via the client directly
 
-You can provide a custom username and password if you want to use different credentials.
-
-Or, you can use the default ones from the ```.env``` using  ```config('screenscraper.credentials')```.
+Useful when working with multiple accounts or custom credentials:
 
 ```php
 use ScreenScraper\Data\AuthData;
 use ScreenScraper\Models\ScreenScraper;
 
 $auth = new AuthData(
-    devId: developer_identifier,
-    devPassword: developer_password,
-    softname: software_name,
-    output: json or xml,
-    ssid: user_identifier,
-    sspassword: user_password,
+    devId: 'your_dev_id',
+    devPassword: 'your_dev_password',
+    softname: 'Your App Name',
+    output: 'json',
+    ssid: 'your_username',
+    sspassword: 'your_password',
 );
 
 $client = new ScreenScraper($auth);
-
 $client->getGame(gameId: 1);
 ```
 
-### Mapping the response 🗺️
+You can also use the default credentials from config:
 
-There are two ways to map the response. By default, the package uses the DTO mapping.
-
-```dotenv
-SCREENSCRAPER_DTO_MAPPING=true
-SCREENSCRAPER_MAPPING=false
+```php
+$auth = new AuthData(...config('screenscraper.credentials'));
 ```
 
-**Note**: If you want to use the raw mapping, you need to set the ```SCREENSCRAPER_DTO_MAPPING``` to ```false``` and the ```SCREENSCRAPER_RAW_MAPPING``` to ```true```. RAW only works with DTO mapping disabled.
+---
 
+## 🗺️ Response mapping
 
-## Available methods 📚
+By default, the package maps responses to typed DTOs. You can switch to raw responses via `.env`:
 
-This package provides all methods available in the [ScreenScraper API](https://www.screenscraper.fr/webapi2.php?alpha=0&numpage=0).
+```env
+# Default — typed DTOs via spatie/laravel-data
+SCREENSCRAPER_DTO_MAPPING=true
+SCREENSCRAPER_RAW_MAPPING=false
 
-See the [ScreenScraperClient facade](src/ScreenScraperClient.php) for more information.
+# Raw responses — disable DTO mapping first
+SCREENSCRAPER_DTO_MAPPING=false
+SCREENSCRAPER_RAW_MAPPING=true
+```
 
-## Working with ⚙️
-### PHP dependencies 📦
-- Spatie Laravel Data [![Latest Stable Version](https://img.shields.io/badge/stable-4.18.0-blue)](https://packagist.org/packages/spatie/laravel-data)
-#### Develop dependencies 🔧
-- Friendsofphp Php Cs Fixer [![Latest Stable Version](https://img.shields.io/badge/stable-v3.92.5-blue)](https://packagist.org/packages/friendsofphp/php-cs-fixer)
-- Hermes Dependencies [![Latest Stable Version](https://img.shields.io/badge/stable-1.2.0-blue)](https://packagist.org/packages/hermes/dependencies)
-- Larastan Larastan [![Latest Stable Version](https://img.shields.io/badge/stable-v2.11.2-blue)](https://packagist.org/packages/larastan/larastan)
-- Orchestra Testbench [![Latest Stable Version](https://img.shields.io/badge/stable-v9.16.0-blue)](https://packagist.org/packages/orchestra/testbench)
-- Pestphp Pest [![Latest Stable Version](https://img.shields.io/badge/stable-v3.8.4-blue)](https://packagist.org/packages/pestphp/pest)
+> `RAW` mapping only works when `SCREENSCRAPER_DTO_MAPPING` is set to `false`.
 
-## Testing ✅
+---
 
-```shell
+## 📚 Available methods
+
+This package covers all endpoints from the [ScreenScraper API](https://www.screenscraper.fr/webapi2.php?alpha=0&numpage=0). See [`ScreenScraperClient`](src/ScreenScraperClient.php) for the full method list.
+
+---
+
+## 🧪 Testing
+
+```bash
 composer test
 ```
 
-## Problems? 🚨
+---
 
-Let me know about yours by [opening an issue](https://github.com/gboquizosanchez/screenscraper/issues/new)!
+## Contributing
 
-## Credits 🧑‍💻
+Contributions are welcome!
 
-- [Germán Boquizo Sánchez](mailto:germanboquizosanchez@gmail.com)
-- [All Contributors](../../contributors)
+- 🐛 **Report bugs** via [GitHub Issues](https://github.com/gboquizosanchez/screenscraper/issues/new)
+- 💡 **Suggest features** or improvements
+- 🔧 **Submit pull requests** with fixes or enhancements
 
-## License 📄
+---
 
-MIT License (MIT). See [License File](LICENSE.md).
+## Credits
+
+- **Author**: [Germán Boquizo Sánchez](mailto:germanboquizosanchez@gmail.com)
+- **Contributors**: [View all contributors](../../contributors)
+
+---
+
+## 📄 License
+
+This package is open-source software licensed under the [MIT License](LICENSE.md).
