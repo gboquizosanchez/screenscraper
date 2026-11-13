@@ -91,6 +91,23 @@ final class ScreenScraper
     }
 
     /**
+     * @param array<string, mixed> $fields
+     *
+     * @throws ConnectionException
+     * @throws ScreenScraperException
+     * @throws QuotaExceededException
+     */
+    public function callPost(
+        string $endpoint,
+        array $fields = [],
+    ): string {
+        return $this->requestPost(
+            $this->url($endpoint, []),
+            array_filter($fields),
+        );
+    }
+
+    /**
      * @param array<string, mixed> $parameters
      */
     private function url(string $endpoint, array $parameters): string

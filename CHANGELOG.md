@@ -6,6 +6,7 @@ All notable changes to this package are documented in this file.
 
 ### Added
 
+- `callPost()` for `multipart/form-data` endpoints, and optional `$source`, `$supportNumber` and `$version` in `sendContribution()`.
 - Optional `systemId`, `crc`, `md5`, `sha1`, `romName`, `romType`, `romSize` and `serialNum` in `getGame()` with an integer identifier, to identify a game by the hash of its ROM through `jeuInfos.php`.
 - Optional `media`, `systemId`, `crc`, `md5`, `sha1`, `mediaFormat` in `downloadGameMedia()`, `downloadGameVideo()` and `downloadGameManual()`, and `maxWidth`, `maxHeight` and `outputFormat` in `downloadGameMedia()`.
 - Optional `crc`, `md5`, `sha1`, `mediaFormat`, `maxWidth`, `maxHeight` and `outputFormat` in `downloadGroupMedia()` and `downloadCompanyMedia()`.
@@ -25,6 +26,7 @@ All notable changes to this package are documented in this file.
 
 ### Fixed
 
+- `sendContribution()` sent a GET with fields the API does not read; it now sends the `multipart/form-data` POST that `botProposition.php` expects.
 - `getGame()` with an integer identifier sent `id` instead of `gameid`.
 - `getGameMediaTypes()` sent a game id to an endpoint that has no input; `$gameId` is now optional and ignored.
 - `getGameInfoTypes()`, `getRomInfoTypes()` and `getGameMediaTypes()` returned empty objects; they now map `infos` and `medias`.

@@ -25,6 +25,9 @@ trait HasBots
     }
 
     /**
+     * Proposes a media by URL as a `multipart/form-data` POST. The API does not read
+     * `$crc`, `$md5`, `$sha1`, `$size` or `$format`: they are kept for compatibility and are not sent.
+     *
      * @link https://www.screenscraper.fr/webapi2.php?alpha=0&numpage=0#botProposition
      */
     public function sendContribution(
@@ -32,22 +35,23 @@ trait HasBots
         string $region,
         string $mediaType,
         string $url,
-        string $crc,
-        string $md5,
-        string $sha1,
-        int $size,
-        string $format,
+        ?string $crc = null,
+        ?string $md5 = null,
+        ?string $sha1 = null,
+        ?int $size = null,
+        ?string $format = null,
+        ?string $source = null,
+        ?int $supportNumber = null,
+        ?string $version = null,
     ): void {
-        $this->call('botProposition.php', [
-            'id' => $gameId,
-            'region' => $region,
-            'media' => $mediaType,
-            'url' => $url,
-            'crc' => $crc,
-            'md5' => $md5,
-            'sha1' => $sha1,
-            'taille' => $size,
-            'format' => $format,
+        $this->callPost('botProposition.php', [
+            'gameid' => $gameId,
+            'modiftypemedia' => $mediaType,
+            'modiftyperegion' => $region,
+            'modifmediafileurl' => $url,
+            'modifmediasource' => $source,
+            'modiftypenumsupport' => $supportNumber,
+            'modiftypeversion' => $version,
         ]);
     }
 }

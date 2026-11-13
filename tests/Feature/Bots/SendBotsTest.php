@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
+use Illuminate\Http\Client\Factory;
+use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
+use ScreenScraper\Exceptions\QuotaExceededException;
 use ScreenScraper\ScreenScraperClient;
 
 /** @see \ScreenScraper\Traits\HasBots::sendGameRating() */
@@ -59,4 +62,43 @@ it('keeps a rating of zero', function (): void {
         'gameid' => '1',
         'note' => '0',
     ]);
+});
+
+it('sends a contribution as a multipart post', function (): void {
+    ScreenScraperClient::sendContribution(
+        gameId: 1,
+        region: 'wor',
+        mediaType: 'sstitle',
+        url: 'https://example.com/media.png',
+        source: 'https://example.com',
+        supportNumber: 2,
+        version: 'v2',
+    );
+
+    Http::assertSent(function (Request $request): bool {
+        expect($request->method())->toBe('POST')
+            ->and($request->isMultipart())->toBeTrue()
+            ->and(basename((string) parse_url($request->url(), PHP_URL_PATH)))->toBe('botProposition.php')
+            ->and(array_map('strval', array_column($request->data(), 'contents', 'name')))->toBe([
+                'gameid' => '1',
+                'modiftypemedia' => 'sstitle',
+                'modiftyperegion' => 'wor',
+                'modifmediafileurl' => 'https://example.com/media.png',
+                'modifmediasource' => 'https://example.com',
+                'modiftypenumsupport' => '2',
+                'modiftypeversion' => 'v2',
+            ]);
+
+        return true;
+    });
+});
+
+it('throws a quota exception when the post is refused', function (): void {
+    Http::swap(new Factory());
+    Http::fake([
+        '*' => Http::response('Votre quota de scrape est dépassé pour aujourd\'hui !', 430),
+    ]);
+
+    expect(fn() => ScreenScraperClient::sendContribution(1, 'wor', 'sstitle', 'https://example.com/a.png'))
+        ->toThrow(QuotaExceededException::class);
 });

@@ -79,6 +79,33 @@ trait MakesHttpRequests
     }
 
     /**
+     * @param array<string, mixed> $fields
+     *
+     * @throws ConnectionException
+     * @throws ScreenScraperException
+     * @throws QuotaExceededException
+     */
+    final public function requestPost(
+        #[SensitiveParameter]
+        string $uri,
+        array $fields = [],
+    ): string {
+        try {
+            $response = (clone $this->client)
+                ->asMultipart()
+                ->post($uri, $fields);
+        } catch (ConnectionException) {
+            throw new ConnectionException('Could not connect to ScreenScraper.');
+        }
+
+        if (! $this->isSuccessful($response)) {
+            $this->handleRequestError($response);
+        }
+
+        return $response->body();
+    }
+
+    /**
      * The URI carries the account credentials and the connection message quotes it,
      * so a failed connection is rethrown without that message or previous exception.
      *

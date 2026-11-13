@@ -158,9 +158,9 @@ This package covers all endpoints from the [ScreenScraper API](https://www.scree
 | Groups | `downloadGroupMedia()` | `mediaGroup` | raw `string` |
 | Groups | `downloadCompanyMedia()` | `mediaCompagnie` | raw `string` |
 | Bots | `sendGameRating()` | `botNote` | `void` |
-| Bots | `sendContribution()` | `botProposition` | `void` (does not match the API yet, see below) |
+| Bots | `sendContribution()` | `botProposition` | `void` |
 
-> `botProposition.php` is a `multipart/form-data` POST with `gameid` (or `romid`) and `modif*` fields. `sendContribution()` still sends a GET with other fields, so it does not work against the real API.
+`sendContribution()` proposes a media by URL with a `multipart/form-data` POST, as `botProposition.php` expects. `$crc`, `$md5`, `$sha1`, `$size` and `$format` are not read by the API and are not sent; `$source`, `$supportNumber` and `$version` are optional. Text proposals (`modiftexte` and the like) and file uploads (`modifmediafile`) are not covered: use `callPost()` for them.
 
 ### Getting a game
 

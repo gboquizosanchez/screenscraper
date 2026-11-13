@@ -66,11 +66,12 @@ use ScreenScraper\Models\ScreenScraper;
  *
  * Start bots methods.
  * @method static void sendGameRating(int $gameId, int $rating, ?string $romName = null, ?string $crc = null)
- * @method static void sendContribution(int $gameId, string $region, string $mediaType, string $url, string $crc, string $md5, string $sha1, int $size, string $format)
+ * @method static void sendContribution(int $gameId, string $region, string $mediaType, string $url, ?string $crc = null, ?string $md5 = null, ?string $sha1 = null, ?int $size = null, ?string $format = null, ?string $source = null, ?int $supportNumber = null, ?string $version = null)
  *
  * Start low level methods.
  * @method static array<string, mixed> call(string $endpoint, array<string, mixed> $parameters = [], bool $filtered = true)
  * @method static string callRaw(string $endpoint, array<string, mixed> $parameters = [], bool $filtered = true)
+ * @method static string callPost(string $endpoint, array<string, mixed> $fields = [])
  *
  * @see ScreenScraper
  */
