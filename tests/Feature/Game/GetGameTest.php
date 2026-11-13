@@ -3,52 +3,52 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Http;
-use ScreenScraper\Data\Game\GameSearchResultsData;
+use ScreenScraper\Data\Game\GamesData;
 use ScreenScraper\ScreenScraperClient;
 
 /** @see \ScreenScraper\Traits\HasGames::getGame() */
 beforeEach(function (): void {
     Http::fake([
-        '*' => fakeRequest(),
+        '*' => getGameFakeRequest(),
     ]);
 });
 
 it('retrieves all information about game', function (): void {
-    /** @var GameSearchResultsData $response */
+    /** @var GamesData $response */
     $response = ScreenScraperClient::getGame(
-        gameId: 1,
+        identifier: 1,
     );
 
     expect($response)
-        ->toBeInstanceOf(GameSearchResultsData::class)
+        ->toBeInstanceOf(GamesData::class)
         ->and($response->transformed())
-        ->toBe(expectedResponse());
+        ->toBe(getGameExpectedResponse());
 });
 
 it('retrieves all information about game in array mode', function (): void {
     $this->app['config']->set('screenscraper.mapping.dto', false);
 
     $response = ScreenScraperClient::getGame(
-        gameId: 1,
+        identifier: 1,
     );
 
     expect($response)
-        ->toBe(expectedResponse());
+        ->toBe(getGameExpectedResponse());
 });
 
-it('retrieves all information about the search of games in array mode with RAW Properties', function (): void {
+it('retrieves all information about game in array mode with RAW Properties', function (): void {
     $this->app['config']->set('screenscraper.mapping.raw_properties', true);
     $this->app['config']->set('screenscraper.mapping.dto', false);
 
     $response = ScreenScraperClient::getGame(
-        gameId: 1,
+        identifier: 1,
     );
 
     expect($response)
-        ->toBe(fakeRequest());
+        ->toBe(getGameFakeRequest());
 });
 
-function expectedResponse(): array
+function getGameListingExpectedResponse(): array
 {
     return [
         'games' => [
@@ -161,7 +161,7 @@ function expectedResponse(): array
     ];
 }
 
-function fakeRequest(): array
+function getGameListingFakeResponse(): array
 {
     return [
         'jeux' => [
@@ -274,5 +274,26 @@ function fakeRequest(): array
                 ],
             ],
         ],
+    ];
+}
+
+function getGameFakeRequest(): array
+{
+    return [
+        'response' => getGameFakeResponse(),
+    ];
+}
+
+function getGameFakeResponse(): array
+{
+    return [
+        'jeu' => getGameListingFakeResponse()['jeux'][0],
+    ];
+}
+
+function getGameExpectedResponse(): array
+{
+    return [
+        'game' => getGameListingExpectedResponse()['games'][0],
     ];
 }

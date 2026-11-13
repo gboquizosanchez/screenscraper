@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Illuminate\Http\Client\Factory;
 use Illuminate\Support\Facades\Http;
 use ScreenScraper\Data\User\ScreenScraperUserData;
 use ScreenScraper\ScreenScraperClient;
@@ -9,7 +10,7 @@ use ScreenScraper\ScreenScraperClient;
 /** @see \ScreenScraper\Traits\HasUsers::getUser() */
 beforeEach(function (): void {
     Http::fake([
-        '*' => fakeRequest(),
+        '*' => getUserFakeRequest(),
     ]);
 });
 
@@ -20,7 +21,7 @@ it('retrieves all information about the user', function (): void {
     expect($response)
         ->toBeInstanceOf(ScreenScraperUserData::class)
         ->and($response->transformed())
-        ->toBe(expectedResponse());
+        ->toBe(getUserExpectedResponse());
 });
 
 it('retrieves all information about the user in array mode', function (): void {
@@ -29,7 +30,7 @@ it('retrieves all information about the user in array mode', function (): void {
     $response = ScreenScraperClient::getUser();
 
     expect($response)
-        ->toBe(expectedResponse());
+        ->toBe(getUserExpectedResponse());
 });
 
 it('retrieves all information about the user in array mode with RAW Properties', function (): void {
@@ -39,10 +40,36 @@ it('retrieves all information about the user in array mode with RAW Properties',
     $response = ScreenScraperClient::getUser();
 
     expect($response)
-        ->toBe(fakeRequest());
+        ->toBe(getUserFakeRequest());
 });
 
-function expectedResponse(): array
+it('exposes the quota and the limits of the account', function (): void {
+    $payload = getUserFakeResponse();
+    $payload['ssuser']['requeststoday'] = '150';
+    $payload['ssuser']['requestskotoday'] = '7';
+    $payload['ssuser']['maxrequestsperday'] = '20000';
+    $payload['ssuser']['maxrequestskoperday'] = '2000';
+    $payload['ssuser']['maxthreads'] = '4';
+
+    Http::swap(new Factory());
+    Http::fake([
+        '*' => [
+            'response' => $payload,
+        ],
+    ]);
+
+    /** @var ScreenScraperUserData $response */
+    $response = ScreenScraperClient::getUser();
+
+    expect(lastPath())->toBe('ssuserInfos.php')
+        ->and($response->user->requestsToday)->toBe(150)
+        ->and($response->user->failedRequestsToday)->toBe(7)
+        ->and($response->user->maxRequestsPerDay)->toBe(20_000)
+        ->and($response->user->maxFailedRequestsPerDay)->toBe(2000)
+        ->and($response->user->maxThreads)->toBe(4);
+});
+
+function getUserExpectedResponse(): array
 {
     return [
         'user' => [
@@ -71,7 +98,7 @@ function expectedResponse(): array
     ];
 }
 
-function fakeRequest(): array
+function getUserFakeResponse(): array
 {
     return [
         'ssuser' => [
@@ -97,5 +124,12 @@ function fakeRequest(): array
             'datedernierevisite' => '2026-01-18 14:53:06',
             'favregion' => 'us',
         ],
+    ];
+}
+
+function getUserFakeRequest(): array
+{
+    return [
+        'response' => getUserFakeResponse(),
     ];
 }

@@ -9,7 +9,7 @@ use ScreenScraper\ScreenScraperClient;
 /** @see \ScreenScraper\Traits\HasSystems::getSystems() */
 beforeEach(function (): void {
     Http::fake([
-        '*' => fakeRequest(),
+        '*' => getSystemsFakeRequest(),
     ]);
 });
 
@@ -20,7 +20,7 @@ it('retrieves all information about the systems', function (): void {
     expect($response)
         ->toBeInstanceOf(SystemsData::class)
         ->and($response->transformed())
-        ->toBe(expectedResponse());
+        ->toBe(getSystemsExpectedResponse());
 });
 
 it('retrieves all information about the systems in array mode', function (): void {
@@ -29,7 +29,7 @@ it('retrieves all information about the systems in array mode', function (): voi
     $response = ScreenScraperClient::getSystems();
 
     expect($response)
-        ->toBe(expectedResponse());
+        ->toBe(getSystemsExpectedResponse());
 });
 
 it('retrieves all information about the systems in array mode with RAW Properties', function (): void {
@@ -39,10 +39,10 @@ it('retrieves all information about the systems in array mode with RAW Propertie
     $response = ScreenScraperClient::getSystems();
 
     expect($response)
-        ->toBe(fakeRequest());
+        ->toBe(getSystemsFakeRequest());
 });
 
-function expectedResponse(): array
+function getSystemsExpectedResponse(): array
 {
     return [
         'systems' => [
@@ -83,7 +83,7 @@ function expectedResponse(): array
     ];
 }
 
-function fakeRequest(): array
+function getSystemsFakeResponse(): array
 {
     return [
         'systemes' => [
@@ -120,5 +120,12 @@ function fakeRequest(): array
                 ],
             ],
         ],
+    ];
+}
+
+function getSystemsFakeRequest(): array
+{
+    return [
+        'response' => getSystemsFakeResponse(),
     ];
 }

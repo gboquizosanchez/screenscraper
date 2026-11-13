@@ -9,7 +9,7 @@ use ScreenScraper\ScreenScraperClient;
 /** @see \ScreenScraper\Traits\HasLists::getRegions() */
 beforeEach(function (): void {
     Http::fake([
-        '*' => fakeRequest(),
+        '*' => getRegionsFakeRequest(),
     ]);
 });
 
@@ -20,7 +20,7 @@ it('retrieves all information about the regions', function (): void {
     expect($response)
         ->toBeInstanceOf(RegionsData::class)
         ->and($response->transformed())
-        ->toBe(expectedResponse());
+        ->toBe(getRegionsExpectedResponse());
 });
 
 it('retrieves all information about the rom types in array mode', function (): void {
@@ -29,7 +29,7 @@ it('retrieves all information about the rom types in array mode', function (): v
     $response = ScreenScraperClient::getRegions();
 
     expect($response)
-        ->toBe(expectedResponse());
+        ->toBe(getRegionsExpectedResponse());
 });
 
 it('retrieves all information about the rom types in array mode with RAW Properties', function (): void {
@@ -39,10 +39,10 @@ it('retrieves all information about the rom types in array mode with RAW Propert
     $response = ScreenScraperClient::getRegions();
 
     expect($response)
-        ->toBe(fakeRequest());
+        ->toBe(getRegionsFakeRequest());
 });
 
-function expectedResponse(): array
+function getRegionsExpectedResponse(): array
 {
     return [
         'regions' => [
@@ -101,7 +101,7 @@ function expectedResponse(): array
     ];
 }
 
-function fakeRequest(): array
+function getRegionsFakeResponse(): array
 {
     return [
         'regions' => [
@@ -157,5 +157,12 @@ function fakeRequest(): array
                 'parent' => '48',
             ],
         ],
+    ];
+}
+
+function getRegionsFakeRequest(): array
+{
+    return [
+        'response' => getRegionsFakeResponse(),
     ];
 }

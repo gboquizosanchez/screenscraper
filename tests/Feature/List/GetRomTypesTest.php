@@ -9,7 +9,7 @@ use ScreenScraper\ScreenScraperClient;
 /** @see \ScreenScraper\Traits\HasLists::getRomTypes() */
 beforeEach(function (): void {
     Http::fake([
-        '*' => fakeRequest(),
+        '*' => getRomTypesFakeRequest(),
     ]);
 });
 
@@ -20,7 +20,7 @@ it('retrieves all information about the rom types', function (): void {
     expect($response)
         ->toBeInstanceOf(RomTypesData::class)
         ->and($response->transformed())
-        ->toBe(expectedResponse());
+        ->toBe(getRomTypesExpectedResponse());
 });
 
 it('retrieves all information about the rom types in array mode', function (): void {
@@ -29,7 +29,7 @@ it('retrieves all information about the rom types in array mode', function (): v
     $response = ScreenScraperClient::getRomTypes();
 
     expect($response)
-        ->toBe(expectedResponse());
+        ->toBe(getRomTypesExpectedResponse());
 });
 
 it('retrieves all information about the rom types in array mode with RAW Properties', function (): void {
@@ -39,10 +39,10 @@ it('retrieves all information about the rom types in array mode with RAW Propert
     $response = ScreenScraperClient::getRomTypes();
 
     expect($response)
-        ->toBe(fakeRequest());
+        ->toBe(getRomTypesFakeRequest());
 });
 
-function expectedResponse(): array
+function getRomTypesExpectedResponse(): array
 {
     return [
         'romTypes' => [
@@ -54,7 +54,7 @@ function expectedResponse(): array
     ];
 }
 
-function fakeRequest(): array
+function getRomTypesFakeResponse(): array
 {
     return [
         'romtypes' => [
@@ -63,5 +63,12 @@ function fakeRequest(): array
             'iso',
             'rom',
         ],
+    ];
+}
+
+function getRomTypesFakeRequest(): array
+{
+    return [
+        'response' => getRomTypesFakeResponse(),
     ];
 }

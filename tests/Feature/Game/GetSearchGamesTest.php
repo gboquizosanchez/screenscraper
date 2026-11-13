@@ -9,7 +9,7 @@ use ScreenScraper\ScreenScraperClient;
 /** @see \ScreenScraper\Traits\HasGames::searchGames() */
 beforeEach(function (): void {
     Http::fake([
-        '*' => fakeRequest(),
+        '*' => getSearchGamesFakeRequest(),
     ]);
 });
 
@@ -23,7 +23,7 @@ it('retrieves all information about the search of games', function (): void {
     expect($response)
         ->toBeInstanceOf(GameSearchResultsData::class)
         ->and($response->transformed())
-        ->toBe(expectedResponse());
+        ->toBe(getSearchGamesExpectedResponse());
 });
 
 it('retrieves all information about the search of games in array mode', function (): void {
@@ -35,7 +35,7 @@ it('retrieves all information about the search of games in array mode', function
     );
 
     expect($response)
-        ->toBe(expectedResponse());
+        ->toBe(getSearchGamesExpectedResponse());
 });
 
 it('retrieves all information about the search of games in array mode with RAW Properties', function (): void {
@@ -48,10 +48,10 @@ it('retrieves all information about the search of games in array mode with RAW P
     );
 
     expect($response)
-        ->toBe(fakeRequest());
+        ->toBe(getSearchGamesFakeRequest());
 });
 
-function expectedResponse(): array
+function getSearchGamesExpectedResponse(): array
 {
     return [
         'games' => [
@@ -164,7 +164,7 @@ function expectedResponse(): array
     ];
 }
 
-function fakeRequest(): array
+function getSearchGamesFakeResponse(): array
 {
     return [
         'jeux' => [
@@ -277,5 +277,12 @@ function fakeRequest(): array
                 ],
             ],
         ],
+    ];
+}
+
+function getSearchGamesFakeRequest(): array
+{
+    return [
+        'response' => getSearchGamesFakeResponse(),
     ];
 }

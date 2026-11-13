@@ -9,7 +9,7 @@ use ScreenScraper\ScreenScraperClient;
 /** @see \ScreenScraper\Traits\HasUsers::getPlayerCounts() */
 beforeEach(function (): void {
     Http::fake([
-        '*' => fakeRequest(),
+        '*' => getPlayerCountsFakeRequest(),
     ]);
 });
 
@@ -20,7 +20,7 @@ it('retrieves all information about the player counts', function (): void {
     expect($response)
         ->toBeInstanceOf(PlayerCountsData::class)
         ->and($response->transformed())
-        ->toBe(expectedResponse());
+        ->toBe(getPlayerCountsExpectedResponse());
 });
 
 it('retrieves all information about the player counts in array mode', function (): void {
@@ -29,7 +29,7 @@ it('retrieves all information about the player counts in array mode', function (
     $response = ScreenScraperClient::getPlayerCounts();
 
     expect($response)
-        ->toBe(expectedResponse());
+        ->toBe(getPlayerCountsExpectedResponse());
 });
 
 it('retrieves all information about the player counts in array mode with RAW Properties', function (): void {
@@ -39,10 +39,10 @@ it('retrieves all information about the player counts in array mode with RAW Pro
     $response = ScreenScraperClient::getPlayerCounts();
 
     expect($response)
-        ->toBe(fakeRequest());
+        ->toBe(getPlayerCountsFakeRequest());
 });
 
-function expectedResponse(): array
+function getPlayerCountsExpectedResponse(): array
 {
     return [
         'numberOfPlayers' => [
@@ -100,7 +100,7 @@ function expectedResponse(): array
     ];
 }
 
-function fakeRequest(): array
+function getPlayerCountsFakeResponse(): array
 {
     return [
         'nbjoueurs' => [
@@ -155,5 +155,12 @@ function fakeRequest(): array
                 'parent' => '0',
             ],
         ],
+    ];
+}
+
+function getPlayerCountsFakeRequest(): array
+{
+    return [
+        'response' => getPlayerCountsFakeResponse(),
     ];
 }

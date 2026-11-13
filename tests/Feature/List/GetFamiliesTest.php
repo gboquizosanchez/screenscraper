@@ -9,7 +9,7 @@ use ScreenScraper\ScreenScraperClient;
 /** @see \ScreenScraper\Traits\HasLists::getFamilies() */
 beforeEach(function (): void {
     Http::fake([
-        '*' => fakeRequest(),
+        '*' => getFamiliesFakeRequest(),
     ]);
 });
 
@@ -20,7 +20,7 @@ it('retrieves all information about the families', function (): void {
     expect($response)
         ->toBeInstanceOf(FamiliesData::class)
         ->and($response->transformed())
-        ->toBe(expectedResponse());
+        ->toBe(getFamiliesExpectedResponse());
 });
 
 it('retrieves all information about the families in array mode', function (): void {
@@ -29,7 +29,7 @@ it('retrieves all information about the families in array mode', function (): vo
     $response = ScreenScraperClient::getFamilies();
 
     expect($response)
-        ->toBe(expectedResponse());
+        ->toBe(getFamiliesExpectedResponse());
 });
 
 it('retrieves all information about the families in array mode with RAW Properties', function (): void {
@@ -39,10 +39,10 @@ it('retrieves all information about the families in array mode with RAW Properti
     $response = ScreenScraperClient::getFamilies();
 
     expect($response)
-        ->toBe(fakeRequest());
+        ->toBe(getFamiliesFakeRequest());
 });
 
-function expectedResponse(): array
+function getFamiliesExpectedResponse(): array
 {
     return [
         'families' =>  [
@@ -69,7 +69,7 @@ function expectedResponse(): array
     ];
 }
 
-function fakeRequest(): array
+function getFamiliesFakeResponse(): array
 {
     return [
         'familles' => [
@@ -93,5 +93,12 @@ function fakeRequest(): array
                 'nom' => 'Deathsmiles',
             ],
         ],
+    ];
+}
+
+function getFamiliesFakeRequest(): array
+{
+    return [
+        'response' => getFamiliesFakeResponse(),
     ];
 }

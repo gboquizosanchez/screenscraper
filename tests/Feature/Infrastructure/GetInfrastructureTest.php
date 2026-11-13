@@ -9,7 +9,7 @@ use ScreenScraper\ScreenScraperClient;
 /** @see \ScreenScraper\Traits\HasInfrastructure::getInfrastructure() */
 beforeEach(function (): void {
     Http::fake([
-        '*' => fakeRequest(),
+        '*' => getInfrastructureFakeRequest(),
     ]);
 });
 
@@ -20,7 +20,7 @@ it('retrieves all information about the infrastructure', function (): void {
     expect($response)
         ->toBeInstanceOf(InfrastructureData::class)
         ->and($response->transformed())
-        ->toBe(expectedResponse());
+        ->toBe(getInfrastructureExpectedResponse());
 });
 
 it('retrieves all information about the infrastructure in array mode', function (): void {
@@ -29,7 +29,7 @@ it('retrieves all information about the infrastructure in array mode', function 
     $response = ScreenScraperClient::getInfrastructure();
 
     expect($response)
-        ->toBe(expectedResponse());
+        ->toBe(getInfrastructureExpectedResponse());
 });
 
 it('retrieves all information about the infrastructure in array mode with RAW Properties', function (): void {
@@ -39,10 +39,10 @@ it('retrieves all information about the infrastructure in array mode with RAW Pr
     $response = ScreenScraperClient::getInfrastructure();
 
     expect($response)
-        ->toBe(fakeRequest());
+        ->toBe(getInfrastructureFakeRequest());
 });
 
-function expectedResponse(): array
+function getInfrastructureExpectedResponse(): array
 {
     return [
         'servers' => [
@@ -63,7 +63,7 @@ function expectedResponse(): array
     ];
 }
 
-function fakeRequest(): array
+function getInfrastructureFakeResponse(): array
 {
     return [
         'serveurs' => [
@@ -81,5 +81,12 @@ function fakeRequest(): array
             'maxthreadformember' => 4096,
             'threadformember' => 573,
         ],
+    ];
+}
+
+function getInfrastructureFakeRequest(): array
+{
+    return [
+        'response' => getInfrastructureFakeResponse(),
     ];
 }

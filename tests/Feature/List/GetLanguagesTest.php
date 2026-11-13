@@ -9,7 +9,7 @@ use ScreenScraper\ScreenScraperClient;
 /** @see \ScreenScraper\Traits\HasLists::getLanguages() */
 beforeEach(function (): void {
     Http::fake([
-        '*' => fakeRequest(),
+        '*' => getLanguagesFakeRequest(),
     ]);
 });
 
@@ -20,7 +20,7 @@ it('retrieves all information about the languages', function (): void {
     expect($response)
         ->toBeInstanceOf(LanguagesData::class)
         ->and($response->transformed())
-        ->toBe(expectedResponse());
+        ->toBe(getLanguagesExpectedResponse());
 });
 
 it('retrieves all information about the languages in array mode', function (): void {
@@ -29,7 +29,7 @@ it('retrieves all information about the languages in array mode', function (): v
     $response = ScreenScraperClient::getLanguages();
 
     expect($response)
-        ->toBe(expectedResponse());
+        ->toBe(getLanguagesExpectedResponse());
 });
 
 it('retrieves all information about the languages in array mode with RAW Properties', function (): void {
@@ -39,10 +39,10 @@ it('retrieves all information about the languages in array mode with RAW Propert
     $response = ScreenScraperClient::getLanguages();
 
     expect($response)
-        ->toBe(fakeRequest());
+        ->toBe(getLanguagesFakeRequest());
 });
 
-function expectedResponse(): array
+function getLanguagesExpectedResponse(): array
 {
     return [
         'languages' => [
@@ -116,7 +116,7 @@ function expectedResponse(): array
     ];
 }
 
-function fakeRequest(): array
+function getLanguagesFakeResponse(): array
 {
     return [
         'langues' => [
@@ -187,5 +187,12 @@ function fakeRequest(): array
                 'parent' => '0',
             ],
         ],
+    ];
+}
+
+function getLanguagesFakeRequest(): array
+{
+    return [
+        'response' => getLanguagesFakeResponse(),
     ];
 }

@@ -9,7 +9,7 @@ use ScreenScraper\ScreenScraperClient;
 /** @see \ScreenScraper\Traits\HasSystems::getSystemMediaTypes() */
 beforeEach(function (): void {
     Http::fake([
-        '*' => fakeRequest(),
+        '*' => getSystemMediaTypesFakeRequest(),
     ]);
 });
 
@@ -20,7 +20,7 @@ it('retrieves all information about the system media types', function (): void {
     expect($response)
         ->toBeInstanceOf(SystemMediaTypesData::class)
         ->and($response->transformed())
-        ->toBe(expectedResponse());
+        ->toBe(getSystemMediaTypesExpectedResponse());
 });
 
 it('retrieves all information about the system media types in array mode', function (): void {
@@ -29,7 +29,7 @@ it('retrieves all information about the system media types in array mode', funct
     $response = ScreenScraperClient::getSystemMediaTypes();
 
     expect($response)
-        ->toBe(expectedResponse());
+        ->toBe(getSystemMediaTypesExpectedResponse());
 });
 
 it('retrieves all information about the system media types in array mode with RAW Properties', function (): void {
@@ -39,10 +39,10 @@ it('retrieves all information about the system media types in array mode with RA
     $response = ScreenScraperClient::getSystemMediaTypes();
 
     expect($response)
-        ->toBe(fakeRequest());
+        ->toBe(getSystemMediaTypesFakeRequest());
 });
 
-function expectedResponse(): array
+function getSystemMediaTypesExpectedResponse(): array
 {
     return [
         'mediaTypes' => [
@@ -78,7 +78,7 @@ function expectedResponse(): array
     ];
 }
 
-function fakeRequest(): array
+function getSystemMediaTypesFakeResponse(): array
 {
     return [
         'medias' => [
@@ -115,5 +115,12 @@ function fakeRequest(): array
                 'extrainfostxt' => '',
             ],
         ],
+    ];
+}
+
+function getSystemMediaTypesFakeRequest(): array
+{
+    return [
+        'response' => getSystemMediaTypesFakeResponse(),
     ];
 }

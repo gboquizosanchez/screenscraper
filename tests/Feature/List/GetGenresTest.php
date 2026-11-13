@@ -9,7 +9,7 @@ use ScreenScraper\ScreenScraperClient;
 /** @see \ScreenScraper\Traits\HasLists::getGenres() */
 beforeEach(function (): void {
     Http::fake([
-        '*' => fakeRequest(),
+        '*' => getGenresFakeRequest(),
     ]);
 });
 
@@ -20,7 +20,7 @@ it('retrieves all information about the genres', function (): void {
     expect($response)
         ->toBeInstanceOf(GenresData::class)
         ->and($response->transformed())
-        ->toBe(expectedResponse());
+        ->toBe(getGenresExpectedResponse());
 });
 
 it('retrieves all information about the genres in array mode', function (): void {
@@ -29,7 +29,7 @@ it('retrieves all information about the genres in array mode', function (): void
     $response = ScreenScraperClient::getGenres();
 
     expect($response)
-        ->toBe(expectedResponse());
+        ->toBe(getGenresExpectedResponse());
 });
 
 it('retrieves all information about the genres in array mode with RAW Properties', function (): void {
@@ -39,10 +39,10 @@ it('retrieves all information about the genres in array mode with RAW Properties
     $response = ScreenScraperClient::getGenres();
 
     expect($response)
-        ->toBe(fakeRequest());
+        ->toBe(getGenresFakeRequest());
 });
 
-function expectedResponse(): array
+function getGenresExpectedResponse(): array
 {
     return [
         'genres' => [
@@ -58,7 +58,10 @@ function expectedResponse(): array
                 'media' => [
                     0 => [
                         'type' => 'pictomonochrome',
+                        'parent' => null,
                         'url' => 'https://neoclone.screenscraper.fr/api2/mediaGroup.php?devid=xxx&devpassword=yyy&softname=zzz&ssid=test&sspassword=test&groupid=1&media=logo-monochrome&mediaformat=png',
+                        'region' => null,
+                        'support' => null,
                         'crc' => '3974c2c4',
                         'md5' => '19fa1571415cc4d60d321d1c42dd45b5',
                         'sha1' => '27a372f24bbf11f0a7050bfea0bbcab612935244',
@@ -67,7 +70,10 @@ function expectedResponse(): array
                     ],
                     1 => [
                         'type' => 'pictomonochromesvg',
+                        'parent' => null,
                         'url' => 'https://neoclone.screenscraper.fr/api2/mediaGroup.php?devid=xxx&devpassword=yyy&softname=zzz&ssid=test&sspassword=test&groupid=1&media=logo-monochrome-svg&mediaformat=svg',
+                        'region' => null,
+                        'support' => null,
                         'crc' => 'ccb72604',
                         'md5' => 'a3cce15fcad1ab4329a718a6b0d27d7e',
                         'sha1' => '1de1e8426d307e4cc56b909ffe353813822278e3',
@@ -76,7 +82,10 @@ function expectedResponse(): array
                     ],
                     2 => [
                         'type' => 'background',
+                        'parent' => null,
                         'url' => 'https://neoclone.screenscraper.fr/api2/mediaGroup.php?devid=xxx&devpassword=yyy&softname=zzz&ssid=test&sspassword=test&groupid=1&media=background&mediaformat=jpg',
+                        'region' => null,
+                        'support' => null,
                         'crc' => '76efc81b',
                         'md5' => 'c110398f549f2cc0e3203275655943e1',
                         'sha1' => 'e11e67f962b414d3bdfcc1afe285bab4135c6d1b',
@@ -97,7 +106,10 @@ function expectedResponse(): array
                 'media' => [
                     0 => [
                         'type' => 'pictomonochrome',
+                        'parent' => null,
                         'url' => 'https://neoclone.screenscraper.fr/api2/mediaGroup.php?devid=xxx&devpassword=yyy&softname=zzz&ssid=test&sspassword=test&groupid=7&media=logo-monochrome&mediaformat=png',
+                        'region' => null,
+                        'support' => null,
                         'crc' => '0f88a1ba',
                         'md5' => 'e8c818f5f59d48642afea18e5c545c15',
                         'sha1' => 'ef3857055eaae13785d2cab692edf9454b544be3',
@@ -106,7 +118,10 @@ function expectedResponse(): array
                     ],
                     1 => [
                         'type' => 'pictomonochromesvg',
+                        'parent' => null,
                         'url' => 'https://neoclone.screenscraper.fr/api2/mediaGroup.php?devid=xxx&devpassword=yyy&softname=zzz&ssid=test&sspassword=test&groupid=7&media=logo-monochrome-svg&mediaformat=svg',
+                        'region' => null,
+                        'support' => null,
                         'crc' => 'fa797dda',
                         'md5' => '73a61640b94904834fdbfc7e043150e0',
                         'sha1' => '3e5fe422339961df30bd70aa83e43671a1badce4',
@@ -115,7 +130,10 @@ function expectedResponse(): array
                     ],
                     2 => [
                         'type' => 'background',
+                        'parent' => null,
                         'url' => 'https://neoclone.screenscraper.fr/api2/mediaGroup.php?devid=xxx&devpassword=yyy&softname=zzz&ssid=test&sspassword=test&groupid=7&media=background&mediaformat=jpg',
+                        'region' => null,
+                        'support' => null,
                         'crc' => '3d578fbf',
                         'md5' => '62dbdbe08a5765fae2630d06e0f0ea38',
                         'sha1' => '354ef394870af26f443863a29c846a07a20f47a0',
@@ -128,7 +146,7 @@ function expectedResponse(): array
     ];
 }
 
-function fakeRequest(): array
+function getGenresFakeResponse(): array
 {
     return [
         'genres' => [
@@ -211,5 +229,12 @@ function fakeRequest(): array
                 ],
             ],
         ],
+    ];
+}
+
+function getGenresFakeRequest(): array
+{
+    return [
+        'response' => getGenresFakeResponse(),
     ];
 }

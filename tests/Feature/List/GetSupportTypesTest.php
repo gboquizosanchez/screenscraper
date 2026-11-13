@@ -9,7 +9,7 @@ use ScreenScraper\ScreenScraperClient;
 /** @see \ScreenScraper\Traits\HasLists::getSupportTypes() */
 beforeEach(function (): void {
     Http::fake([
-        '*' => fakeRequest(),
+        '*' => getSupportTypesFakeRequest(),
     ]);
 });
 
@@ -20,7 +20,7 @@ it('retrieves all information about the support types', function (): void {
     expect($response)
         ->toBeInstanceOf(SupportTypesData::class)
         ->and($response->transformed())
-        ->toBe(expectedResponse());
+        ->toBe(getSupportTypesExpectedResponse());
 });
 
 it('retrieves all information about the support types in array mode', function (): void {
@@ -29,7 +29,7 @@ it('retrieves all information about the support types in array mode', function (
     $response = ScreenScraperClient::getSupportTypes();
 
     expect($response)
-        ->toBe(expectedResponse());
+        ->toBe(getSupportTypesExpectedResponse());
 });
 
 it('retrieves all information about the support types in array mode with RAW Properties', function (): void {
@@ -39,10 +39,10 @@ it('retrieves all information about the support types in array mode with RAW Pro
     $response = ScreenScraperClient::getSupportTypes();
 
     expect($response)
-        ->toBe(fakeRequest());
+        ->toBe(getSupportTypesFakeRequest());
 });
 
-function expectedResponse(): array
+function getSupportTypesExpectedResponse(): array
 {
     return [
         'supportTypes' => [
@@ -69,7 +69,7 @@ function expectedResponse(): array
     ];
 }
 
-function fakeRequest(): array
+function getSupportTypesFakeResponse(): array
 {
     return [
         'supporttypes' => [
@@ -93,5 +93,12 @@ function fakeRequest(): array
             'videotape',
             'web',
         ],
+    ];
+}
+
+function getSupportTypesFakeRequest(): array
+{
+    return [
+        'response' => getSupportTypesFakeResponse(),
     ];
 }

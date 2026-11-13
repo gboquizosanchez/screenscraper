@@ -9,7 +9,7 @@ use ScreenScraper\ScreenScraperClient;
 /** @see \ScreenScraper\Traits\HasLists::getClassifications() */
 beforeEach(function (): void {
     Http::fake([
-        '*' => fakeRequest(),
+        '*' => getClassificationFakeRequest(),
     ]);
 });
 
@@ -20,7 +20,7 @@ it('retrieves all information about the classifications', function (): void {
     expect($response)
         ->toBeInstanceOf(ClassificationsData::class)
         ->and($response->transformed())
-        ->toBe(expectedResponse());
+        ->toBe(getClassificationExpectedResponse());
 });
 
 it('retrieves all information about the classifications in array mode', function (): void {
@@ -29,7 +29,7 @@ it('retrieves all information about the classifications in array mode', function
     $response = ScreenScraperClient::getClassifications();
 
     expect($response)
-        ->toBe(expectedResponse());
+        ->toBe(getClassificationExpectedResponse());
 });
 
 it('retrieves all information about the classifications in array mode with RAW Properties', function (): void {
@@ -39,10 +39,10 @@ it('retrieves all information about the classifications in array mode with RAW P
     $response = ScreenScraperClient::getClassifications();
 
     expect($response)
-        ->toBe(fakeRequest());
+        ->toBe(getClassificationFakeRequest());
 });
 
-function expectedResponse(): array
+function getClassificationExpectedResponse(): array
 {
     return [
         'classifications' =>  [
@@ -55,7 +55,10 @@ function expectedResponse(): array
                 'media' =>  [
                     0 =>  [
                         'type' => 'pictomonochrome',
+                        'parent' => null,
                         'url' => 'https://neoclone.screenscraper.fr/api2/mediaGroup.php?devid=xxx&devpassword=yyy&softname=zzz&ssid=test&sspassword=test&groupid=3326&media=logo-monochrome&mediaformat=png',
+                        'region' => null,
+                        'support' => null,
                         'crc' => '2209ca9d',
                         'md5' => '69ae2e55d29213699692a507575f03a2',
                         'sha1' => '15923f1cc22ea88ffe1ac0f29a4be547eaae1cdd',
@@ -64,7 +67,10 @@ function expectedResponse(): array
                     ],
                     1 =>  [
                         'type' => 'pictomonochromesvg',
+                        'parent' => null,
                         'url' => 'https://neoclone.screenscraper.fr/api2/mediaGroup.php?devid=xxx&devpassword=yyy&softname=zzz&ssid=test&sspassword=test&groupid=3326&media=logo-monochrome-svg&mediaformat=svg',
+                        'region' => null,
+                        'support' => null,
                         'crc' => 'c5cfd710',
                         'md5' => '4947ebc57d34e4f9735a0be7924f14d7',
                         'sha1' => 'f2a432b10f1e33279d215e936614b1b68839c4a2',
@@ -78,7 +84,7 @@ function expectedResponse(): array
     ];
 }
 
-function fakeRequest(): array
+function getClassificationFakeResponse(): array
 {
     return [
         'classifications' => [
@@ -113,5 +119,12 @@ function fakeRequest(): array
                 ],
             ],
         ],
+    ];
+}
+
+function getClassificationFakeRequest(): array
+{
+    return [
+        'response' => getClassificationFakeResponse(),
     ];
 }

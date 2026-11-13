@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
+use Illuminate\Support\Facades\Http;
 use ScreenScraper\Data\AuthData;
 use ScreenScraper\Exceptions\ForbiddenException;
-use ScreenScraper\Exceptions\UnauthorizedException;
 use ScreenScraper\Models\ScreenScraper;
 
 it('should be the config in file', function (): void {
@@ -14,9 +14,9 @@ it('should be the config in file', function (): void {
             'credentials' => [
                 'ssid' => null,
                 'sspassword' => null,
-                'dev_id' => null,
-                'dev_password' => null,
-                'softname' => 'laravel',
+                'dev_id' => 'xxx',
+                'dev_password' => 'yyy',
+                'softname' => 'ScreenScraper API Client for Laravel',
                 'output' => 'json',
             ],
             'mapping' => [
@@ -27,11 +27,15 @@ it('should be the config in file', function (): void {
         ->toBeArray();
 });
 
-it('should be unauthorized', function (): void {
+it('should be forbidden with wrong developer credentials', function (): void {
+    Http::fake([
+        '*' => Http::response('Erreur de login : Vérifier vos identifiants développeur !', 403),
+    ]);
+
     $client = new ScreenScraper(new AuthData(
         devId: 'devId',
         devPassword: 'devPassword',
-        softname: 'laravel',
+        softwareName: 'laravel',
         output: 'json',
     ));
 

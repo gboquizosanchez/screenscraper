@@ -9,7 +9,7 @@ use ScreenScraper\ScreenScraperClient;
 /** @see \ScreenScraper\Traits\HasUsers::getUserLevels() */
 beforeEach(function (): void {
     Http::fake([
-        '*' => fakeRequest(),
+        '*' => getUserLevelsFakeRequest(),
     ]);
 });
 
@@ -20,7 +20,7 @@ it('retrieves all information about the levels', function (): void {
     expect($response)
         ->toBeInstanceOf(UserLevelsData::class)
         ->and($response->transformed())
-        ->toBe(expectedResponse());
+        ->toBe(getUserLevelsExpectedResponse());
 });
 
 it('retrieves all information about the levels in array mode', function (): void {
@@ -29,7 +29,7 @@ it('retrieves all information about the levels in array mode', function (): void
     $response = ScreenScraperClient::getUserLevels();
 
     expect($response)
-        ->toBe(expectedResponse());
+        ->toBe(getUserLevelsExpectedResponse());
 });
 
 it('retrieves all information about the levels in array mode with RAW Properties', function (): void {
@@ -39,10 +39,10 @@ it('retrieves all information about the levels in array mode with RAW Properties
     $response = ScreenScraperClient::getUserLevels();
 
     expect($response)
-        ->toBe(fakeRequest());
+        ->toBe(getUserLevelsFakeRequest());
 });
 
-function expectedResponse(): array
+function getUserLevelsExpectedResponse(): array
 {
     return [
         'levels' => [
@@ -154,7 +154,7 @@ function expectedResponse(): array
     ];
 }
 
-function fakeRequest(): array
+function getUserLevelsFakeResponse(): array
 {
     return [
         'userlevels' => [
@@ -263,5 +263,12 @@ function fakeRequest(): array
                 'name' => 'Chuck Norris',
             ],
         ],
+    ];
+}
+
+function getUserLevelsFakeRequest(): array
+{
+    return [
+        'response' => getUserLevelsFakeResponse(),
     ];
 }
