@@ -14,6 +14,7 @@ final class FamilyData extends Data
     public string $id;
     #[MapName('nom')]
     public string $name;
+    /** @var list<array<string, mixed>> */
     #[MapName('medias')]
     public array $media;
 }

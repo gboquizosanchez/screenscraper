@@ -6,7 +6,4 @@ namespace ScreenScraper\Data\Game;
 
 use ScreenScraper\Data;
 
-final class RomInfoTypeData extends Data
-{
-
-}
+final class RomInfoTypeData extends Data {}

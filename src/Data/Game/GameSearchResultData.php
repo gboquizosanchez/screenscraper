@@ -12,6 +12,7 @@ final class GameSearchResultData extends Data
 {
     public int $id;
 
+    /** @var list<GameNamesData> */
     #[MapName('noms')]
     #[DataCollectionOf(GameNamesData::class)]
     public array $names;
@@ -32,19 +33,26 @@ final class GameSearchResultData extends Data
     public string $controls;
     #[MapName('couleurs')]
     public string $colors;
+    /** @var list<SynopsisData> */
     #[DataCollectionOf(SynopsisData::class)]
     public array $synopsis;
+    /** @var list<GameClassificationData> */
     #[DataCollectionOf(GameClassificationData::class)]
     public array $classifications;
+    /** @var list<DatesData> */
     #[DataCollectionOf(DatesData::class)]
     public array $dates;
+    /** @var list<GameObjectData> */
     #[DataCollectionOf(GameObjectData::class)]
     public array $genres;
+    /** @var list<GameObjectData> */
     #[DataCollectionOf(GameObjectData::class)]
     public array $modes;
+    /** @var list<GameObjectData> */
     #[MapName('familles')]
     #[DataCollectionOf(GameObjectData::class)]
     public array $families;
+    /** @var list<array<string, mixed>> */
     #[MapName('medias')]
     public array $medias;
 }

@@ -10,6 +10,7 @@ use Spatie\LaravelData\Attributes\MapName;
 
 final class SystemsData extends Data
 {
+    /** @var list<SystemData> */
     #[MapName('systemes')]
     #[DataCollectionOf(SystemData::class)]
     public array $systems;

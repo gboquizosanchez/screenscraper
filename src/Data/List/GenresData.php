@@ -10,6 +10,7 @@ use Spatie\LaravelData\Attributes\MapName;
 
 final class GenresData extends Data
 {
+    /** @var list<GenreData> */
     #[MapName('genres')]
     #[DataCollectionOf(GenreData::class)]
     public array $genres;

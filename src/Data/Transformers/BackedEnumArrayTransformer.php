@@ -11,6 +11,9 @@ use Spatie\LaravelData\Transformers\Transformer;
 
 final class BackedEnumArrayTransformer implements Transformer
 {
+    /**
+     * @return array<mixed>
+     */
     public function transform(
         DataProperty $property,
         mixed $value,

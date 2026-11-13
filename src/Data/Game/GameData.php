@@ -6,7 +6,4 @@ namespace ScreenScraper\Data\Game;
 
 use ScreenScraper\Data;
 
-final class GameData extends Data
-{
-
-}
+final class GameData extends Data {}

@@ -10,6 +10,7 @@ use Spatie\LaravelData\Attributes\MapName;
 
 final class FamiliesData extends Data
 {
+    /** @var list<FamilyData> */
     #[MapName('familles')]
     #[DataCollectionOf(FamilyData::class)]
     public array $families;

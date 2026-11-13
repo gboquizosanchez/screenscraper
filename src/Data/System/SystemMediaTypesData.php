@@ -10,6 +10,7 @@ use Spatie\LaravelData\Attributes\MapName;
 
 final class SystemMediaTypesData extends Data
 {
+    /** @var list<SystemMediaTypeData> */
     #[MapName('medias')]
     #[DataCollectionOf(SystemMediaTypeData::class)]
     public array $mediaTypes;

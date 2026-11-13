@@ -14,7 +14,7 @@ use Spatie\LaravelData\Attributes\WithTransformer;
 
 final class SupportTypesData extends Data
 {
-    /** @var list<SupportType> */
+    /** @var list<array<string, mixed>> */
     #[MapName('supporttypes')]
     #[WithCast(BackedEnumArrayCast::class, SupportType::class)]
     #[WithTransformer(BackedEnumArrayTransformer::class)]

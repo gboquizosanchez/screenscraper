@@ -10,6 +10,7 @@ use Spatie\LaravelData\Attributes\MapName;
 
 final class UserLevelsData extends Data
 {
+    /** @var list<LevelData> */
     #[MapName('userlevels')]
     #[DataCollectionOf(LevelData::class)]
     public array $levels;

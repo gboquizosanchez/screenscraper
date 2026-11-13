@@ -15,6 +15,7 @@ final class ClassificationData extends Data
     public string $id;
     #[MapName('nom')]
     public string $name;
+    /** @var list<MediaData> */
     #[MapName('medias')]
     #[DataCollectionOf(MediaData::class)]
     public array $media;

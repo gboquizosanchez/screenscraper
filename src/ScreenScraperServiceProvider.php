@@ -33,7 +33,14 @@ final class ScreenScraperServiceProvider extends ServiceProvider
         $this->app->bind(
             'screenscraper',
             static function () {
-                /** @var array<string, string> $config */
+                /** @var array{
+                 *     dev_id: string,
+                 *     dev_password: string,
+                 *     softname: string,
+                 *     output: string,
+                 *     ssid: string|null,
+                 *     sspassword: string|null
+                 * } $config */
                 $config = config('screenscraper.credentials');
 
                 $authorization = new AuthData(

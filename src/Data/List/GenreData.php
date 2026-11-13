@@ -29,6 +29,7 @@ final class GenreData extends Data
     public string $namePt;
     #[MapName('parent')]
     public int $parentId;
+    /** @var list<MediaData> */
     #[MapName('medias')]
     #[DataCollectionOf(MediaData::class)]
     public array $media;

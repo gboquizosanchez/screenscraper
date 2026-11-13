@@ -10,6 +10,7 @@ use Spatie\LaravelData\Attributes\MapName;
 
 final class RegionsData extends Data
 {
+    /** @var list<RegionData> */
     #[MapName('regions')]
     #[DataCollectionOf(RegionData::class)]
     public array $regions;

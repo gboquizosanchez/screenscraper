@@ -10,6 +10,7 @@ use Spatie\LaravelData\Attributes\MapName;
 
 final class LanguagesData extends Data
 {
+    /** @var list<LanguageData> */
     #[MapName('langues')]
     #[DataCollectionOf(LanguageData::class)]
     public array $languages;

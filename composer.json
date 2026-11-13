@@ -26,6 +26,7 @@
     }
   },
   "require": {
+    "ext-mbstring": "*",
     "php": "^8.3",
     "spatie/laravel-data": "^4.6"
   },
@@ -37,6 +38,7 @@
     "pestphp/pest": "^3.5"
   },
   "scripts": {
+    "test": "./vendor/bin/pest",
     "fix": "./vendor/bin/php-cs-fixer fix",
     "static": "./vendor/bin/phpstan analyse",
     "all": [

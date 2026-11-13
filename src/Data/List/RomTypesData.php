@@ -14,7 +14,7 @@ use Spatie\LaravelData\Attributes\WithTransformer;
 
 final class RomTypesData extends Data
 {
-    /** @var list<RomType> */
+    /** @var list<array<string, mixed>> */
     #[MapName('romtypes')]
     #[WithCast(BackedEnumArrayCast::class, RomType::class)]
     #[WithTransformer(BackedEnumArrayTransformer::class)]

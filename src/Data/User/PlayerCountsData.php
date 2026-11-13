@@ -10,6 +10,7 @@ use Spatie\LaravelData\Attributes\MapName;
 
 final class PlayerCountsData extends Data
 {
+    /** @var list<PlayerCountData> */
     #[MapName('nbjoueurs')]
     #[DataCollectionOf(PlayerCountData::class)]
     public array $numberOfPlayers;

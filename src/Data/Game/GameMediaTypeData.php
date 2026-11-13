@@ -6,7 +6,4 @@ namespace ScreenScraper\Data\Game;
 
 use ScreenScraper\Data;
 
-final class GameMediaTypeData extends Data
-{
-
-}
+final class GameMediaTypeData extends Data {}

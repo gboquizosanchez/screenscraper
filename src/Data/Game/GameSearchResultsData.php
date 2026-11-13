@@ -10,6 +10,7 @@ use Spatie\LaravelData\Attributes\MapName;
 
 final class GameSearchResultsData extends Data
 {
+    /** @var list<GameSearchResultData> */
     #[MapName('jeux')]
     #[DataCollectionOf(GameSearchResultData::class)]
     public array $games;

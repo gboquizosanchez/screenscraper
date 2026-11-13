@@ -34,6 +34,7 @@ final class SystemData extends Data
     #[MapName('supporttype')]
     #[WithTransformer(BackedEnumNameLcfirstTransformer::class)]
     public SupportType $supportType;
+    /** @var list<MediaData> */
     #[MapName('medias')]
     #[DataCollectionOf(MediaData::class)]
     public array $medias;

@@ -8,6 +8,7 @@ use BackedEnum;
 use Spatie\LaravelData\Casts\Cast;
 use Spatie\LaravelData\Casts\IterableItemCast;
 use Spatie\LaravelData\Casts\Uncastable;
+use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Support\Creation\CreationContext;
 use Spatie\LaravelData\Support\DataProperty;
 
@@ -20,6 +21,10 @@ final readonly class BackedEnumArrayCast implements Cast, IterableItemCast
         private string $enumClass,
     ) {}
 
+    /**
+     * @param array<string, mixed> $properties
+     * @param CreationContext<Data> $context
+     */
     public function cast(
         DataProperty $property,
         mixed $value,
@@ -35,6 +40,10 @@ final readonly class BackedEnumArrayCast implements Cast, IterableItemCast
         }, $value);
     }
 
+    /**
+     * @param array<string, mixed> $properties
+     * @param CreationContext<Data> $context
+     */
     public function castIterableItem(
         DataProperty $property,
         mixed $value,
@@ -44,7 +53,7 @@ final readonly class BackedEnumArrayCast implements Cast, IterableItemCast
         return $this->castOne($value);
     }
 
-    private function castOne(mixed $value): BackedEnum|Uncastable|string
+    private function castOne(mixed $value): BackedEnum|Uncastable
     {
         if ($value instanceof $this->enumClass) {
             return $value;

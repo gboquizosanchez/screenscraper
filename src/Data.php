@@ -10,7 +10,7 @@ use Spatie\LaravelData\Support\Transformation\TransformationContextFactory;
 abstract class Data extends SpatieData
 {
     /**
-     * @phpstan-ignore-next-line
+     * @return array<string, mixed>
      */
     public function transformed(): array
     {

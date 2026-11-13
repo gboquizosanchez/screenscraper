@@ -17,6 +17,7 @@ final class GameObjectData extends Data
     public bool $principal;
     #[MapName('parent')]
     public string $parentId;
+    /** @var list<GameNameData> */
     #[MapName('noms')]
     #[DataCollectionOf(GameNameData::class)]
     public array $names;
