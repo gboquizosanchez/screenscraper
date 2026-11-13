@@ -11,6 +11,8 @@ trait HasSystems
 {
     /**
      * @link https://www.screenscraper.fr/webapi2.php?alpha=0&numpage=0#systemesListe
+     *
+     * @return SystemsData|array<string, mixed>
      */
     public function getSystems(): SystemsData|array
     {
@@ -45,7 +47,7 @@ trait HasSystems
         ?string $outputFormat = null,
     ): string {
         $params = [
-            'id' => $systemId,
+            'systemeid' => $systemId,
             'media' => $media,
         ];
 
@@ -83,7 +85,7 @@ trait HasSystems
         ?string $mediaFormat = null,
     ): string {
         $params = [
-            'id' => $systemId,
+            'systemeid' => $systemId,
             'media' => $media,
         ];
 

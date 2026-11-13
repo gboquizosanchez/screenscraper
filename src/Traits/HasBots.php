@@ -7,21 +7,21 @@ namespace ScreenScraper\Traits;
 trait HasBots
 {
     /**
+     * The API only reads `gameid` and `note`: `$romName` and `$crc` are kept for compatibility
+     * and are not sent.
+     *
      * @link https://www.screenscraper.fr/webapi2.php?alpha=0&numpage=0#botNote
      */
     public function sendGameRating(
         int $gameId,
         int $rating,
-        string $romName,
-        string $crc,
-    ): void
-    {
+        ?string $romName = null,
+        ?string $crc = null,
+    ): void {
         $this->call('botNote.php', [
-            'id' => $gameId,
+            'gameid' => $gameId,
             'note' => $rating,
-            'romnom' => $romName,
-            'crc' => $crc,
-        ]);
+        ], filtered: false);
     }
 
     /**
@@ -37,7 +37,7 @@ trait HasBots
         string $sha1,
         int $size,
         string $format,
-    ): void{
+    ): void {
         $this->call('botProposition.php', [
             'id' => $gameId,
             'region' => $region,

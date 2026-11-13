@@ -14,7 +14,7 @@ beforeEach(function (): void {
 });
 
 it('sends a game rating without throwing', function (): void {
-    expect(fn () => ScreenScraperClient::sendGameRating(
+    expect(fn() => ScreenScraperClient::sendGameRating(
         gameId: 1,
         rating: 18,
         romName: 'sonic2.md',
@@ -23,7 +23,7 @@ it('sends a game rating without throwing', function (): void {
 });
 
 it('sends a contribution without throwing', function (): void {
-    expect(fn () => ScreenScraperClient::sendContribution(
+    expect(fn() => ScreenScraperClient::sendContribution(
         gameId: 1,
         region: 'wor',
         mediaType: 'sstitle',
@@ -34,4 +34,29 @@ it('sends a contribution without throwing', function (): void {
         size: 7784,
         format: 'png',
     ))->not->toThrow(Throwable::class);
+});
+
+it('sends only the game and the rating to botNote', function (): void {
+    ScreenScraperClient::sendGameRating(
+        gameId: 1,
+        rating: 18,
+    );
+
+    expect(lastPath())->toBe('botNote.php')
+        ->and(lastQuery())->toBe([
+            'gameid' => '1',
+            'note' => '18',
+        ]);
+});
+
+it('keeps a rating of zero', function (): void {
+    ScreenScraperClient::sendGameRating(
+        gameId: 1,
+        rating: 0,
+    );
+
+    expect(lastQuery())->toBe([
+        'gameid' => '1',
+        'note' => '0',
+    ]);
 });
