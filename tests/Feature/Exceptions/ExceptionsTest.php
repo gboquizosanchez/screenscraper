@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use ScreenScraper\Data\AuthData;
+use ScreenScraper\Data\List\SupportTypesData;
 use ScreenScraper\Exceptions\BadRequestException;
 use ScreenScraper\Exceptions\ForbiddenException;
 use ScreenScraper\Exceptions\GenericException;
@@ -204,4 +205,46 @@ it('hides the passwords when the client is dumped', function (): void {
         ->not->toContain('dev-secret')
         ->not->toContain('user-secret')
         ->toContain('[redacted]');
+});
+
+it('throws a generic exception when the answer is not json', function (): void {
+    Http::fake([
+        '*' => Http::response('<html>not json</html>'),
+    ]);
+
+    secretClient()->call('jeuInfos.php');
+})->throws(GenericException::class, 'Invalid JSON response');
+
+it('does not leak the url or the credentials when a post cannot connect', function (): void {
+    Http::fake(function (): void {
+        throw new ConnectionException('cURL error 6 for https://api.screenscraper.fr/?devpassword=dev-secret');
+    });
+
+    try {
+        secretClient()->callPost('botProposition.php', ['gameid' => 1]);
+    } catch (ConnectionException $caught) {
+        expect($caught->getMessage())
+            ->not->toContain('dev-secret')
+            ->and($caught->getPrevious())->toBeNull();
+
+        return;
+    }
+
+    $this->fail('No exception thrown.');
+});
+
+it('maps a response under a given key', function (): void {
+    $this->app['config']->set('screenscraper.mapping.dto', false);
+
+    $result = secretClient()->response(
+        [
+            'response' => ['web', 'cd'],
+        ],
+        SupportTypesData::class,
+        'supporttypes',
+    );
+
+    expect($result)->toBe([
+        'supportTypes' => ['web', 'cd'],
+    ]);
 });
