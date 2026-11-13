@@ -20,6 +20,21 @@ final readonly class AuthData
     ) {}
 
     /**
+     * @return array<string, string|null>
+     */
+    public function __debugInfo(): array
+    {
+        return [
+            'devId' => $this->devId,
+            'devPassword' => '[redacted]',
+            'softwareName' => $this->softwareName,
+            'output' => $this->output,
+            'id' => $this->id,
+            'password' => '[redacted]',
+        ];
+    }
+
+    /**
      * @return array<string, string>
      */
     public function credentials(): array

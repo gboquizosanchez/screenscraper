@@ -4,4 +4,6 @@ declare(strict_types=1);
 
 namespace ScreenScraper\Exceptions;
 
-interface ScreenScraperException {}
+use Throwable;
+
+interface ScreenScraperException extends Throwable {}
